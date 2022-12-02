@@ -1,0 +1,10 @@
+# Keeping this for historical purposes. Using the container to check for updates is what is being focused on now. This may break.
+
+[Unit]
+Description=Run script that will trigger new build of ostree container image at quay.io
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/yosuke/Documents/Projects/ostree-container/
+ExecStart=/home/yosuke/Documents/Projects/ostree-container/check_update.sh

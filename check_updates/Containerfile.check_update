@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+ENV GIT_TOKEN=SetTokenAsEnvVariableAtRuntime
+
+# Get required packages
+RUN  apk update && apk add --no-cache skopeo git
+
+# Clone this git repository inside the container
+RUN git clone https://github.com/GuiltyDoggy/ostree-container.git
+WORKDIR /ostree-container/check_updates/
+RUN git config user.email "52749251+GuiltyDoggy@users.noreply.github.com" && \
+    git config user.name "Yosuke Matsumura" && \
+    git config credential.helper cache && \
+    git config credential.helper '!f() { echo username=guiltydoggy; echo "password=${GIT_TOKEN}"; };f'
+
+# Run the check_update.sh script, which will push a new digest.txt file to the repository if a new base image is available and thus trigger a new custom build in quay.io
+ENTRYPOINT ./check_update.sh
+

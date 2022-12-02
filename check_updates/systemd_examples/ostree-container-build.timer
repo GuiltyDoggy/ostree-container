@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer to run the ostree container image build
+
+[Timer]
+OnActiveSec=6h
+OnUnitActiveSec=6h
+AccuracySec=30m
+
+[Install]
+WantedBy=timers.target
